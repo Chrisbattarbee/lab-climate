@@ -1,0 +1,49 @@
+package controllers
+
+import (
+	"database/sql"
+	"log"
+	"strconv"
+
+	"github.com/revel/revel"
+)
+
+type App struct {
+	*revel.Controller
+}
+
+func (c App) Index() revel.Result {
+	return c.Render()
+}
+
+func (c App) GetConfig() revel.Result {
+	// TODO: Finalise this, what do we want to return here
+	return c.Render()
+}
+
+func (c App) SubmitData(id int) revel.Result {
+	var jsonData map[string]interface{}
+	c.Params.BindJSON(&jsonData)
+
+	query := "INSERT INTO data(node_id, timestamp, temperature, humidity, air_quality) VALUES ("
+	query += strconv.Itoa(id)
+	query += ", '"
+	query += jsonData["timestamp"].(string)
+	query += "', "
+	query += strconv.FormatFloat(jsonData["temperature"].(float), 'f', 6, 64)
+	query += ", "
+	query += strconv.FormatFloat(jsonData["humidity"].(float), 'f', 6, 64)
+	query += ", "
+	query += strconv.FormatFloat(jsonData["air_qual"].(float), 'f', 6, 64)
+	query += ");"
+
+	db, err := sql.Open("postgres", "user=chrisbattarbee dbname=climate_control sslmode=verify-full")
+	if err != nil {
+		log.Println("Could not connect to postgres database, error: " + err.Error())
+	}
+
+	result, err := db.Exec(query)
+	if err != nil {
+		log.Println("Could not execute insert query, error: " + err.Error())
+	}
+}

@@ -1,65 +1,43 @@
-labclimate
-==========
+# Welcome to Revel
 
-Database Table Description (Assuming Postgresql)
-------------------------------------------------
-
-### **data** table:
-
-| Field Name  | Field Type |
-|-------------|------------|
-| node\_id    | bigint     |
-| timestamp   | timestamp  |
-| temperature | double     |
-| humidity    | double     |
-| air\_qual   | double     |
+A high-productivity web framework for the [Go language](http://www.golang.org/).
 
 
-### **nodes** table:
+### Start the web server:
 
-| Field Name     | Field Type   |
-|----------------|--------------|
-| node\_id       | bigint       |
-| node\_location | varchar(256) |
+   revel run myapp
 
+### Go to http://localhost:9000/ and you'll see:
 
-API Endpoints
----------------
+    "It works"
 
-| Method | Endpoint         | Usage                                          |
-|--------|------------------|------------------------------------------------|
-| GET    | /config          | Gets the client configuration from the server. |
-| POST   | /data/{id}       | Submits climate data to the server.            |
-| POST   | /nodes           | Adds a new node to the server.                 |
-| DELETE | /nodes/{id}      | Deletes a node from the server.                |
-| PUT    | /nodes/{id}      | Updates the location of a node on the server.  |
+## Code Layout
 
+The directory structure of a generated Revel application:
 
-### GET /config response (*JSON*) \*TODO\*:
+    conf/             Configuration directory
+        app.conf      Main app configuration file
+        routes        Routes definition file
 
-time\_interval: {time\_interval} (Time interval between submissions)
+    app/              App sources
+        init.go       Interceptor registration
+        controllers/  App controllers go here
+        views/        Templates directory
 
-### POST /data/{id} body (*JSON*):
+    messages/         Message files
 
-node\_id:    {node id} 
+    public/           Public static assets
+        css/          CSS files
+        js/           Javascript files
+        images/       Image files
 
-temperature: {temperature}
-
-humididty:   {humidity}
-
-air\_qual:   {air quality value}
-
-timestamp:   {timestamp}
-
-### POST /nodes body (*JSON*):
-
-node\_id:       {node id}
-
-node\_location: {location}
-
-### PUT /nodes/{id} body (*JSON*):
-
-node\_location: {location}
+    tests/            Test suites
 
 
+## Help
+
+* The [Getting Started with Revel](http://revel.github.io/tutorial/gettingstarted.html).
+* The [Revel guides](http://revel.github.io/manual/index.html).
+* The [Revel sample apps](http://revel.github.io/examples/index.html).
+* The [API documentation](https://godoc.org/github.com/revel/revel).
 
