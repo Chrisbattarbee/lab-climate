@@ -55,7 +55,7 @@ func (c App) SubmitData(id int) revel.Result {
 	} else {
 		log.Println("Clime data entry successfully made from " + strconv.Itoa(id) + " at " + jsonData["timestamp"].(string))
 	}
-
+	db.Close()
 	return c.Render()
 }
 
@@ -82,6 +82,7 @@ func (c App) AddNode() revel.Result {
 	} else {
 		log.Println("Successfully added node with ID: " + strconv.Itoa(int(jsonData["node_id"].(float64))))
 	}
+	db.Close()
 	return c.Render()
 }
 
@@ -100,6 +101,7 @@ func (c App) DeleteNode(id int) revel.Result {
 		log.Println("Successfully deleted node with ID: " + strconv.Itoa(id) + " from the database.")
 	}
 
+	db.Close()
 	return c.Render()
 }
 
@@ -122,5 +124,6 @@ func (c App) UpdateLocation(id int) revel.Result {
 	} else {
 		log.Println("Succesfully update location of node with ID: " + strconv.Itoa(id) + " to " + jsonData["location"].(string))
 	}
+	db.Close()
 	return c.Render()
 }
