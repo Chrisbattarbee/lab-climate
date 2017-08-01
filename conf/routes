@@ -9,6 +9,8 @@ module:testrunner
 
 GET     /                                       App.Index
 
+GET     /datadump                               App.DataDump
+
 GET 		/config																	App.GetConfig
 
 POST		/data/:id																App.SubmitData

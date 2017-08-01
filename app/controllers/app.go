@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -126,4 +127,33 @@ func (c App) UpdateLocation(id int) revel.Result {
 	}
 	db.Close()
 	return c.Render()
+}
+
+func (c App) DataDump() revel.Result {
+	db, err := connectToDB()
+	defer db.Close()
+	if err != nil {
+		fmt.Println("Could not connect to postgres database, error:" + err.Error())
+	}
+
+	query := "SELECT * from data;"
+
+	rows, err := db.Query(query)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println("Could not select from the postgres database, error: " + err.Error())
+	}
+
+	jsonResponse := make(map[string][][]interface{})
+	jsonResponse["result"] = make([][]interface{}, 0)
+	for rows.Next() {
+		row := make([]interface{}, 5)
+		err := rows.Scan(&row[0], &row[1], &row[2], &row[3], &row[4])
+		if err != nil {
+			fmt.Println("Could not read row, error: " + err.Error())
+			continue
+		}
+		jsonResponse["result"] = append(jsonResponse["result"], row)
+	}
+	return c.RenderJSON(jsonResponse)
 }
