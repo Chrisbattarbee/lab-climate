@@ -54,7 +54,7 @@ func (c App) SubmitData(id int) revel.Result {
 		log.Println("Could not execute insert query (add_data)")
 		log.Println(err)
 	} else {
-		log.Println("Clime data entry successfully made from " + strconv.Itoa(id) + " at " + jsonData["timestamp"].(string))
+		log.Println("Climate data entry successfully made from " + strconv.Itoa(id) + " at " + jsonData["timestamp"].(string))
 	}
 	db.Close()
 	return c.Render()
